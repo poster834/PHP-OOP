@@ -6,7 +6,45 @@ function myAutoLoader(string $className)
 }
 spl_autoload_register('myAutoLoader');
 
+echo $route = $_GET['route'] ?? '';
 
 
-$controller = new \MyProject\Controllers\MainController();
-$controller->main();
+$pattern = '~^hello/(.*)$~';
+
+preg_match($pattern, $route, $matches);
+echo "<pre>";
+var_dump($matches);
+
+// $controller = new \MyProject\Controllers\MainController();
+
+
+// if (!empty($_GET['name'])) 
+// {
+//     $controller->sayHello($_GET['name']);
+// } else {
+//     $controller->main();
+// }
+
+
+
+
+
+
+
+//HomeWork
+
+// $url = '/post/892';
+// $pattern = '/(?P<controller>[a-zA-Z]+)\/(?P<id>[0-9]+)/m';
+
+
+// preg_match($pattern, $url, $matches);
+// echo "<pre>";
+// $controller = $matches['controller'];
+// $id = $matches['id'];
+
+// var_dump($controller);
+// var_dump($id);
+
+
+
+
