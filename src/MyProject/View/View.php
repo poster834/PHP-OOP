@@ -13,7 +13,6 @@ class View
     public function renderHtml(string $templateName, array $vars=[])
     {
         extract($vars);
-
         include str_replace('/', '\\',$this->templatesPath.'/'.$templateName);
 
     }
