@@ -14,8 +14,6 @@ class View
     {
         extract($vars);
 
-        // include $this->templatesPath;
-
         include str_replace('/', '\\',$this->templatesPath.'/'.$templateName);
 
     }
