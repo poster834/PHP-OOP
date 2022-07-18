@@ -11,7 +11,6 @@ $route = $_GET['route'] ?? '';
 
 $routes = require __DIR__ .  str_replace('/', '\\','/../src/routes.php');
 
-
 $isRouteFound = false;
 
 foreach ($routes as $pattern => $controllerAndAction) {
@@ -26,6 +25,7 @@ if (!$isRouteFound) {
     echo 'Страница не найдена';
     return;
 }
+
 unset($matches[0]);
 // echo "<pre>";
 // var_dump($controllerAndAction);
