@@ -6,45 +6,33 @@ function myAutoLoader(string $className)
 }
 spl_autoload_register('myAutoLoader');
 
-echo $route = $_GET['route'] ?? '';
+$route = $_GET['route'] ?? '';
 
 
-$pattern = '~^hello/(.*)$~';
-
-preg_match($pattern, $route, $matches);
-echo "<pre>";
-var_dump($matches);
-
-// $controller = new \MyProject\Controllers\MainController();
+$routes = require __DIR__ .  str_replace('/', '\\','/../src/routes.php');
 
 
-// if (!empty($_GET['name'])) 
-// {
-//     $controller->sayHello($_GET['name']);
-// } else {
-//     $controller->main();
-// }
+$isRouteFound = false;
 
+foreach ($routes as $pattern => $controllerAndAction) {
+    preg_match($pattern, $route, $matches);
+    if (!empty($matches)) {
+        $isRouteFound = true;
+        break;
+    }
+}
 
-
-
-
-
-
-//HomeWork
-
-// $url = '/post/892';
-// $pattern = '/(?P<controller>[a-zA-Z]+)\/(?P<id>[0-9]+)/m';
-
-
-// preg_match($pattern, $url, $matches);
+if (!$isRouteFound) {
+    echo 'Страница не найдена';
+    return;
+}
+unset($matches[0]);
 // echo "<pre>";
-// $controller = $matches['controller'];
-// $id = $matches['id'];
+// var_dump($controllerAndAction);
+// var_dump($matches);
 
-// var_dump($controller);
-// var_dump($id);
-
-
-
+$controllerName = $controllerAndAction[0];
+$actionName = $controllerAndAction[1];
+$controller = new $controllerName();
+$controller -> $actionName(...$matches);
 
