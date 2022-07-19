@@ -6,7 +6,8 @@ class MainController
 {
     public function main()
     {
-        echo "Главная страница";
+        include __DIR__. str_replace('/','\\','/../../templates/main/main.php');
+        
     }
 
     public function sayHello(string $name)

@@ -6,17 +6,7 @@ spl_autoload_register('myAutoLoader');
 
 $routes = require __DIR__ . str_replace('/','\\','/../src/routes.php');
 echo "<pre>";
-// var_dump($routes);
-// $author = new \MyProject\Models\Users\User('Иван');
-// $article = new \MyProject\Models\Articles\Article('Название', 'Текст статьи', $author);
 
-// $controller = new \MyProject\Controllers\MainController();
-
-// if (!empty($_GET['name'])) {
-//     $controller->sayHello($_GET['name']);    
-// } else {
-//     $controller->main();
-// }
 $route = $_GET['route'] ?? '';
     
 $isRouteFound = false;
