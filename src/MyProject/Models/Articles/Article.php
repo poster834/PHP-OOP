@@ -1,4 +1,7 @@
 <?php
+namespace MyProject\Models\Articles;
+use MyProject\Models\Users\User;
+
 class Article
 {
     private $title;
@@ -22,7 +25,7 @@ class Article
         return $this->text;
     }
 
-    public function getAuthor():User
+    public function getAuthor(): User
     {
         return $this->author;
     }
