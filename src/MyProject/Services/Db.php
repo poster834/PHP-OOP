@@ -11,8 +11,7 @@ class Db
     {
         $dbOptions = (require __DIR__.'/../../settings.php')['db'];
         $this->pdo = new PDO(
-            'mysql:host='.$dbOptions['host'].
-            '; dbname='.$dbOptions['dbname'], $dbOptions['user'],$dbOptions['password']
+            'mysql:host='.$dbOptions['host'].'; dbname='.$dbOptions['dbname'], $dbOptions['user'],$dbOptions['password']
         );
         $this->pdo->exec('SET NAMES UTF8');
     }
