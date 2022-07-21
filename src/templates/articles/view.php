@@ -1,9 +1,9 @@
 <?php include('../src/templates/header.php');?>
 
 
-                <h2><?=$article['name'];?></h2>
-                <p><?=$article['text'];?></p>
-                <p>Автор: <?=$article['nickname'];?></p>
+<h2><a href="articles/<?=$article->getId();?>"><?=$article->getName();?></a></h2>
+                <p><?=$article->getText();?></p>
+                
                 <a href="/www">Главная</a>
 
         

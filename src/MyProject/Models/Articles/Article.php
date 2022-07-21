@@ -4,15 +4,36 @@ use MyProject\Models\Users\User;
 
 class Article
 {
-    private $title;
-    private $text;
-    private $author;
+    /**@var int $id */
+    private $id;
 
-    public function __construct(string $title, string $text, User $author)
+    /**@var string $name */
+    private $name;
+    
+    /**@var string $text */
+    private $text;
+
+    /**@var int $authorId */
+    private $authorId;
+
+    /**@var string $createdAt*/
+    private $createdAt;
+
+    public function __set($name, $value)
     {
-        $this->title = $title;
-        $this->text = $text;
-        $this->author = $author;
+        $camelCase = $this->under_score_ToCamelCase($name);
+        
+        $this->$camelCase = $value;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getTitle():string
@@ -30,4 +51,8 @@ class Article
         return $this->author;
     }
 
+    private function under_score_ToCamelCase(string $source):string
+    {
+        return lcfirst(str_replace('_','',ucwords($source, '_')));
+    }
 }

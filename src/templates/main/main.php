@@ -6,13 +6,13 @@
                 Мой блог
             </td>
         </tr>
+        
         <?php foreach ($articles as $article):?>
         <tr>
             <td>
-                <h2><a href="articles/<?=$article['id'];?>"><?=$article['name'];?></a></h2>
-                <p><?=$article['text'];?></p>
-                <p>Автор: <?=$article['nickname'];?></p>
-                <!-- <p><?php var_dump($article);?></p> -->
+                <h2><a href="articles/<?=$article->getId();?>"><?=$article->getName();?></a></h2>
+                <p><?=$article->getText();?></p>
+
             </td>
         </tr>
         <?php endforeach;?>

@@ -2,6 +2,7 @@
 namespace MyProject\Controllers;
 use MyProject\Services\Db;
 use MyProject\View\View;
+use MyProject\Models\Articles\Article;
 
 class ArticlesController
 {
@@ -18,14 +19,17 @@ class ArticlesController
     {
         $result = $this->db->query(
             'SELECT * FROM `articles` LEFT JOIN `users` ON `articles`.`author_id`=`users`.`id` WHERE `articles`.`id` = :id;', 
-            [':id'=>$articleId]
+            [':id'=>$articleId],  Article::class
     );
+
+    // $result = $this->db->query('SELECT * FROM `articles` WHERE `id` = :id;', [':id'=>$articleId], Article::class);
 
     if ($result === []) {
         $this->view->renderHtml('errors/404.php',[],404);
         return;
     }
     $this->view->renderHtml('articles/view.php',['article'=>$result[0]]);
+    
     // var_dump($result);
     }
 }
