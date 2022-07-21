@@ -9,8 +9,10 @@
         <?php foreach ($articles as $article):?>
         <tr>
             <td>
-                <h2><?=$article['name'];?></h2>
+                <h2><a href="articles/<?=$article['id'];?>"><?=$article['name'];?></a></h2>
                 <p><?=$article['text'];?></p>
+                <p>Автор: <?=$article['nickname'];?></p>
+                <!-- <p><?php var_dump($article);?></p> -->
             </td>
         </tr>
         <?php endforeach;?>

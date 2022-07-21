@@ -19,7 +19,7 @@ class MainController
 
     public function main()
     {
-        $articles = $this->db->query('SELECT * FROM `articles`;');
+        $articles = $this->db->query('SELECT * FROM `articles` LEFT JOIN `users` ON `articles`.`author_id`=`users`.`id`');
         $this->view->renderHtml('main/main.php',['articles'=>$articles]);
 
     }

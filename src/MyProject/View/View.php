@@ -9,7 +9,7 @@ class View
     {
         $this->templatesPath = $templatesPath;
     }
-    public function renderHtml(string $templateName, array $vars =[])
+    public function renderHtml(string $templateName, array $vars =[], int $code = 200)
     {
         extract($vars);
 
