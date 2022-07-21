@@ -3,6 +3,7 @@ namespace MyProject\Controllers;
 use MyProject\Services\Db;
 use MyProject\View\View;
 use MyProject\Models\Articles\Article;
+use MyProject\Models\Users\User;
 
 class ArticlesController
 {
@@ -19,12 +20,13 @@ class ArticlesController
     {
     $article = Article::getById($articleId);
 
-    // $result = $this->db->query('SELECT * FROM `articles` WHERE `id` = :id;', [':id'=>$articleId], Article::class);
-
     if ($article === null) {
         $this->view->renderHtml('errors/404.php',[],404);
         return;
     }
+
+    $articleAuthor = User::getByID($articleId);
+
     $this->view->renderHtml('articles/view.php',['article'=>$article]);
     
     // var_dump($result);
