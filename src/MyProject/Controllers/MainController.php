@@ -24,9 +24,7 @@ class MainController
     public function main()
     {
         // $articles = $this->db->query('SELECT * FROM `articles` LEFT JOIN `users` ON `articles`.`author_id`=`users`.`id`;', [], Article::class);
-        $articles = $this->db->query('SELECT * FROM `articles`;', [], Article::class);
-        // echo '<pre>';
-        // print_r($articles);
+        $articles = Article::findAll();
         $this->view->renderHtml('main/main.php',['articles'=>$articles]);
 
     }
