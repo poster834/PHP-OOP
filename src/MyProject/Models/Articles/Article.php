@@ -36,4 +36,25 @@ class Article extends ActiveRecordEntity
     {
         return User::getByID($this->authorId);
     }
+
+    public function setName(string $newName):void
+    {
+        $this->name = $newName;
+    }
+
+    public function setText(string $newText):void
+    {
+        $this->text = $newText;
+    }
+
+    public function setAuthorId(int $authorId):void
+    {
+        $this->authorId = $authorId;
+    }
+    
+    public function setCreatedAt(string $date):void
+    {
+        $this->createdAt = $date;
+    }
+
 }

@@ -22,6 +22,11 @@ abstract class ActiveRecordEntity
         return lcfirst(str_replace('_','',ucwords($source, '_')));
     }
 
+    private function camelCaseTo_under_score(string $source):string
+    {
+        return strtolower(preg_replace('~(?<!^)[A-Z]~','_$0',$source));
+    }
+
     /**@return [] */
     public static function findAll(): array
     {
@@ -34,6 +39,69 @@ abstract class ActiveRecordEntity
         $db = Db::getInstances();
         $entities = $db->query('SELECT * FROM `'.static::getTableName().'` WHERE `id` = :id;', [':id'=>$id], static::class);
         return $entities ? $entities[0]:null;
+    }
+
+    private function mapPropertiesToDBFormat():array
+    {
+        $reflector = new \ReflectionObject($this);
+        $properties = $reflector->getProperties();
+        $mappedProperties = [];
+        foreach ($properties as $property) {
+            $propertyName = $property->getName();
+            $propertyNameAsUnderscore = $this->camelCaseTo_under_score($propertyName);
+            $mappedProperties[$propertyNameAsUnderscore] = $this->$propertyName;
+        }
+        return $mappedProperties;
+    }
+
+    public function save():void
+    {
+       $mappedProperties = $this->mapPropertiesToDBFormat();
+       if ($this -> id === null) {
+        $this->insert($mappedProperties);
+       } else {
+        $this->update($mappedProperties);
+       }
+    }
+
+    private function insert(array $mappedProperties):void
+    {       
+        $columnsToParams = [];
+        $paramsToValues = [];
+        $index = 1;
+        $mappedProperties = array_filter($mappedProperties);
+
+        foreach ($mappedProperties as $column => $value)
+        {
+         $param = ':param' . $index;
+         $columnsToParams[] = $column . ' = ' . $param;
+         $paramsToValues[$param] = $value;
+         $index ++;
+        }
+     
+        $sql = 'INSERT INTO '. static::getTableName() . ' SET '. implode(', ', $columnsToParams).'';
+        $db = Db::getInstances();
+        // $db->query($sql, $paramsToValues);        
+    }
+
+    private function update(array $mappedProperties):void
+    {
+       $columnsToParams = [];
+       $paramsToValues = [];
+       $index = 1;
+
+       foreach ($mappedProperties as $column => $value)
+       {
+        $param = ':param' . $index;
+        $columnsToParams[] = $column . ' = ' . $param;
+        $paramsToValues[$param] = $value;
+        $index ++;
+       }
+
+       $sql = 'UPDATE '. static::getTableName() . ' SET '. implode(', ', $columnsToParams) . ' WHERE id = ' . $this->id;
+       $db = Db::getInstances();
+       $db->query($sql, $paramsToValues, static::class);
+
     }
 
 

@@ -20,14 +20,40 @@ class ArticlesController
     {
     $article = Article::getById($articleId);
 
+
     if ($article === null) {
         $this->view->renderHtml('errors/404.php',[],404);
         return;
     }
 
     $articleAuthor = User::getByID($articleId);
-
     $this->view->renderHtml('articles/view.php',['article'=>$article]);
     
     }
+
+    public function edit(int $articleId): void
+    {
+        $article = Article::getById($articleId);
+        if ($article === null) {
+            $this->view->renderHtml('errors/404.php',[],404);
+            return;
+        }
+        $article->setName('Новое название статьи');
+        $article->setText('Новый текст');
+        $article->save();
+
+
+    }
+
+    public function add(): void
+    {
+        $article = new Article();
+        $article->setName('Название новой статьи');
+        $article->setText('Текст новой статьи');
+        $article->setAuthorId(1);
+        $article->setCreatedAt(date('Y-m-d H:i:s'));
+        $article->save();
+    }
+
+
 }
