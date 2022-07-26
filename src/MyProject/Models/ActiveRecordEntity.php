@@ -25,13 +25,13 @@ abstract class ActiveRecordEntity
     /**@return [] */
     public static function findAll(): array
     {
-        $db = new Db();
+        $db = Db::getInstances();
         return $db->query('SELECT * FROM `'.static::getTableName().'`;', [], static::class);
     }
 
     public static function getById(int $id): ?self
     {
-        $db = new Db();
+        $db = Db::getInstances();
         $entities = $db->query('SELECT * FROM `'.static::getTableName().'` WHERE `id` = :id;', [':id'=>$id], static::class);
         return $entities ? $entities[0]:null;
     }

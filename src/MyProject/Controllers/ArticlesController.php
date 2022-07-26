@@ -13,7 +13,7 @@ class ArticlesController
     public function __construct()
     {
         $this->view = new View(__DIR__. str_replace('/','\\','/../../templates/'));
-        $this->db = new Db();
+        $this->db =Db::getInstances();
     }
 
     public function view(int $articleId)
@@ -29,6 +29,5 @@ class ArticlesController
 
     $this->view->renderHtml('articles/view.php',['article'=>$article]);
     
-    // var_dump($result);
     }
 }
