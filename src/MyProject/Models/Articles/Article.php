@@ -47,9 +47,9 @@ class Article extends ActiveRecordEntity
         $this->text = $newText;
     }
 
-    public function setAuthorId(int $authorId):void
+    public function setAuthor(User $author):void
     {
-        $this->authorId = $authorId;
+        $this->authorId = $author->getID();
     }
     
     public function setCreatedAt(string $date):void

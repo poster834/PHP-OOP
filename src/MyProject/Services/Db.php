@@ -2,6 +2,8 @@
 namespace MyProject\Services;
 
 use PDO;
+use PDOException;
+use MyProject\Exceptions\DbException;
 
 class Db
 {
@@ -11,10 +13,22 @@ class Db
     private function __construct()
     {
         $dbOptions = (require __DIR__.'/../../settings.php')['db'];
-        $this->pdo = new PDO(
-            'mysql:host='.$dbOptions['host'].'; dbname='.$dbOptions['dbname'], $dbOptions['user'],$dbOptions['password']
-        );
-        $this->pdo->exec('SET NAMES UTF8');
+        try {
+            $this->pdo = new PDO(
+                'mysql:host='.$dbOptions['host'].'; dbname='.$dbOptions['dbname'], 
+                $dbOptions['user'],
+                $dbOptions['password']
+            );
+            $this->pdo->exec('SET NAMES UTF8');
+        } catch (PDOException $e) {
+            throw new DbException("Ошибка при подключении к базе данных:" . $e->getMessage());
+            
+        }
+        
+        
+        
+        
+        
     }
 
     public function query(string $sql, array $params = [], string $className = 'stdClass'): ?array
@@ -34,6 +48,11 @@ class Db
             self::$instance = new self();
         } 
         return self::$instance;
+    }
+
+    public function getLastInsertId():int
+    {
+        return (int) $this->pdo->lastInsertId();
     }
 
 }

@@ -81,7 +81,8 @@ abstract class ActiveRecordEntity
      
         $sql = 'INSERT INTO '. static::getTableName() . ' SET '. implode(', ', $columnsToParams).'';
         $db = Db::getInstances();
-        // $db->query($sql, $paramsToValues);        
+        $db->query($sql, $paramsToValues); 
+        $this->id = $db->getLastInsertId();       
     }
 
     private function update(array $mappedProperties):void
@@ -104,6 +105,13 @@ abstract class ActiveRecordEntity
 
     }
 
+    public function delete():void
+    {
+        $sql = 'DELETE FROM '. static::getTableName() . ' WHERE id = :id';
+        $db = Db::getInstances();
+        $db->query($sql, [':id' => $this->id], static::class);
+        $this->id = null;
+    }
 
     abstract protected static function getTableName():string;
 
