@@ -59,7 +59,8 @@ class User extends ActiveRecordEntity
         $user->role = 'user';
         $user->auth_token = sha1(random_bytes(100)).sha1(random_bytes(100));
         $user->save();
-
+mail('poster834@gmail.com','test', 'message', 'From:poster834@gmail.com');
         return $user;
+        
     }
 }
