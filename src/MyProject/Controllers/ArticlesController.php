@@ -1,22 +1,15 @@
 <?php
 namespace MyProject\Controllers;
-use MyProject\Services\Db;
+
 use MyProject\View\View;
 use MyProject\Models\Articles\Article;
 use MyProject\Models\Users\User;
 use MyProject\Exceptions\NotFoundException;
+
 use \Error;
 
-class ArticlesController
+class ArticlesController extends AbstractController
 {
-    private $view;
-    private $db;
-
-    public function __construct()
-    {
-        $this->view = new View(__DIR__. str_replace('/','\\','/../../templates/'));
-        $this->db =Db::getInstances();
-    }
 
     public function view(int $articleId)
     {

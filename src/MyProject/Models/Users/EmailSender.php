@@ -13,9 +13,10 @@ class EmailSender
         array $templateVars = []
     ): void
     {
+        // var_dump($templateVars);
         extract($templateVars);
         ob_start();
-        require __DIR__. str_replace('/','\\','/../src/templates/mail/').$templateName;
+        require __DIR__. str_replace('/','\\','/../../../templates/mail/').$templateName;
         $body = ob_get_contents();
         ob_end_clean();
 

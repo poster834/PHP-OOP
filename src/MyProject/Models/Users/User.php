@@ -59,8 +59,67 @@ class User extends ActiveRecordEntity
         $user->role = 'user';
         $user->auth_token = sha1(random_bytes(100)).sha1(random_bytes(100));
         $user->save();
-mail('poster834@gmail.com','test', 'message', 'From:poster834@gmail.com');
         return $user;
         
+    }
+    public function getEmail() 
+    {
+        return $this->email;
+    }
+
+    public function activate():void
+    {
+        $this->is_confirmed = true;
+        $this->save();
+    }
+
+    public function getConfirmed():bool
+    {
+        return $this->is_confirmed;
+    }
+
+
+    public static function login(array $loginData): User
+    {
+        if (empty($loginData['email'])) {
+            throw new InvalidArgumentException("Не передан email");
+        }
+        if (empty($loginData['password'])) {
+            throw new InvalidArgumentException("Не передан пароль");
+        }
+
+        $user = User::findOneByColumn('email',$loginData['email']);
+
+        if (user === null) {
+            throw new InvalidArgumentException('Нет пользователя с таким email');
+        }
+
+        if (!password_verify($loginData['password'], $user->password_hash)) {
+            throw new InvalidArgumentException('Неправильный пароль');
+        }
+
+        if (!$user->is_confirmed) {
+            throw new InvalidArgumentException('Пользователь не подтвержден');
+        }
+
+        $user->refreshAuthToken();
+        $user->save();
+
+        return $user;
+    }
+
+    public function getPasswordHash():string
+    {
+        return $this->password_hash;
+    }
+
+    private function refreshAuthToken(): void
+    {
+        $this->authToken = sha1(random_bytes(100)).sha1(random_bytes(100));
+    }
+
+    public function getAuthToken():string
+    {
+        return $this->authToken;
     }
 }

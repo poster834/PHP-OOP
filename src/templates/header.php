@@ -6,5 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../www/style.css">
     <title>Блог</title>
+
 </head>
 <body>
+<div id='userLogin'>
+
+<?= !empty($user) ? 'Привет, '.$user->getNickname() : 'Войдите на сайт уже';  ?>
+
+</div>
+
+
