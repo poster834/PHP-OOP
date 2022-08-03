@@ -77,7 +77,11 @@ class User extends ActiveRecordEntity
     {
         return $this->is_confirmed;
     }
-
+    
+    private function refreshAuthToken(): void
+    {
+        $this->authToken = sha1(random_bytes(100)).sha1(random_bytes(100));
+    }
 
     public static function login(array $loginData): User
     {
@@ -90,7 +94,7 @@ class User extends ActiveRecordEntity
 
         $user = User::findOneByColumn('email',$loginData['email']);
 
-        if (user === null) {
+        if ($user === null) {
             throw new InvalidArgumentException('Нет пользователя с таким email');
         }
 
@@ -113,13 +117,16 @@ class User extends ActiveRecordEntity
         return $this->password_hash;
     }
 
-    private function refreshAuthToken(): void
-    {
-        $this->authToken = sha1(random_bytes(100)).sha1(random_bytes(100));
-    }
+    
 
     public function getAuthToken():string
     {
         return $this->authToken;
+    }
+
+    public function logout(User $user):void
+    {
+        $user->refreshAuthToken();
+        $user->save();
     }
 }

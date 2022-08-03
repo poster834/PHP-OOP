@@ -11,7 +11,7 @@
 <body>
 <div id='userLogin'>
 
-<?= !empty($user) ? 'Привет, '.$user->getNickname() : 'Войдите на сайт уже';  ?>
+<?= !empty($user) ? 'Привет, '.$user->getNickname() .' | <a href="/www/users/logout">Выйти</a>' : '<a href="/www/users/login">Вход</a> | <a href="/www/users/register">Регистрация</a>';  ?>
 
 </div>
 

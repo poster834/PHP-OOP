@@ -7,7 +7,7 @@ try{
     spl_autoload_register('myAutoLoader');
 
     $routes = require __DIR__ . str_replace('/','\\','/../src/routes.php');
-    echo "<pre>";
+    
 
     $route = $_GET['route'] ?? '';
         
