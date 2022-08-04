@@ -3,6 +3,8 @@ namespace MyProject\Models\Articles;
 use MyProject\Models\ActiveRecordEntity;
 use MyProject\Models\Users\User;
 use MyProject\Exceptions\InvalidArgumentException;
+use MyProject\Exceptions\ForbiddenException;
+use MyProject\Models\Users\UsersAuthService;
 
 class Article extends ActiveRecordEntity
 {
@@ -60,6 +62,9 @@ class Article extends ActiveRecordEntity
 
     public static function createFromArray(array $fields, User $author):Article
     {
+        if (!$author->isAdmin()) {
+            throw new ForbiddenException("Вы не администратор!");            
+        }
         if (empty($fields['name'])) {
             throw new InvalidArgumentException("Нет названия статьи");
         }
@@ -73,6 +78,26 @@ class Article extends ActiveRecordEntity
         $article->setText($fields['text']);
         $article->save();
         return $article;
+    }
+
+    public function updateFromArray(array $fields):Article
+    {
+        $user = UsersAuthService::getUserByToken();
+
+        if (!$user->isAdmin()) {
+            throw new ForbiddenException("Вы не администратор!");            
+        }
+        if (empty($fields['name'])) {
+            throw new InvalidArgumentException("Нет названия статьи");
+        }
+        if (empty($fields['text'])) {
+            throw new InvalidArgumentException("Нет содержания статьи");
+        }
+
+        $this->setName($fields['name']);
+        $this->setText($fields['text']);
+        $this->save();
+        return $this;
     }
 
 }

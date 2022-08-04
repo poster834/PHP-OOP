@@ -129,4 +129,9 @@ class User extends ActiveRecordEntity
         $user->refreshAuthToken();
         $user->save();
     }
+
+    public function isAdmin():bool
+    {
+        return $this->role == 'admin' ? true : false;
+    }
 }

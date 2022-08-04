@@ -7,6 +7,7 @@ use MyProject\Models\Users\User;
 use MyProject\Exceptions\NotFoundException;
 use MyProject\Exceptions\UnauthorizedException;
 use MyProject\Exceptions\InvalidArgumentException;
+use MyProject\Exceptions\ForbiddenException;
 
 use \Error;
 
@@ -24,18 +25,36 @@ class ArticlesController extends AbstractController
 
     $articleAuthor = User::getByID($articleId);
     $this->view->renderHtml('articles/view.php',['article'=>$article]);
-    
     }
 
     public function edit(int $articleId): void
     {
         $article = Article::getById($articleId);
+
+ 
         if ($article === null) {
           throw new NotFoundException();
         }
-        $article->setName('Новое название статьи');
-        $article->setText('Новый текст');
-        $article->save();
+        if ($this->user === null) {
+            throw new UnauthorizedException('Авторизуйтесь чтобы редактировать статью');
+        }
+
+        if (!empty($_POST)) {
+            try {
+                $article->updateFromArray($_POST);
+            } catch (InvalidArgumentException $e) {
+                $this->view->renderHtml('articles/edit.php', ['error'=>$e->getMessage(), 'article'=>$article]);
+                return;
+            }catch (ForbiddenException $e) {
+                $this->view->renderHtml('errors/403.php', ['error'=>$e->getMessage()],403);
+                return;
+            }
+
+            header ('Location: /www/articles/'.$article->getId(), true, 302);
+            exit();
+        }
+        $this->view->renderHtml('articles/edit.php', ['article'=>$article]);
+
     }
 
     public function add(): void
@@ -43,16 +62,24 @@ class ArticlesController extends AbstractController
         if ($this->user === null) {
             throw new UnauthorizedException('Авторизуйтесь чтобы добавить статью');
         }
-        if (!empty($_POST)) {
-            try {
-                $article = Article::createFromArray($_POST, $this->user);
-            } catch (InvalidArgumentException $e) {
-                $this->view->renderHtml('articles/add.php', ['error'=>$e->getMessage()]);
-                return;
+       
+            if (!empty($_POST)) {
+                try {
+                    $article = Article::createFromArray($_POST, $this->user);
+                } catch (InvalidArgumentException $e) {
+                    $this->view->renderHtml('articles/add.php', ['error'=>$e->getMessage()]);
+                    return;
+                }catch (ForbiddenException $e) {
+                    $this->view->renderHtml('errors/403.php', ['error'=>$e->getMessage()],403);
+                    return;
+                }
+
+                header ('Location: '.$article->getId(), true, 302);
+                exit();
             }
-            header ('Location: '.$article->getId(), true, 302);
-            exit();
-        }
+        
+
+
         $this->view->renderHtml('articles/add.php');
     }
 
