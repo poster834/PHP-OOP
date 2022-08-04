@@ -2,14 +2,17 @@
 
     <table class='layout'>
         <tr>
-            <td colspan='2' class='header'>
+            <td class='header'>
                 Мой блог
+            </td>
+            <td>
+                <a href="articles/add">   Добавить статью</a>
             </td>
         </tr>
         
         <?php foreach ($articles as $article):?>
         <tr>
-            <td>
+            <td colspan="2">
                 <h2><a href="articles/<?=$article->getId();?>"><?=$article->getName();?></a></h2>
                 <p><?=$article->getText();?></p>
 

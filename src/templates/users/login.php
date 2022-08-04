@@ -1,7 +1,7 @@
 <?php include('../src/templates/header.php');?>
-<?php if (!empty($error)):?>
+<?php if (!empty($error)):?>    
     <div style="color:red; text-align:center;"><?=$error;?></div>
-<?php else:?>
+<?php endif;?>
     <div style="text-align:center;">
         <h1>
             Вход
@@ -16,4 +16,4 @@
     </div>
 
 <?php include('../src/templates/footer.php');?>
-<?php endif;?>
+

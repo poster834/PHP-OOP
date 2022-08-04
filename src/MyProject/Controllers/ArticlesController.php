@@ -5,6 +5,8 @@ use MyProject\View\View;
 use MyProject\Models\Articles\Article;
 use MyProject\Models\Users\User;
 use MyProject\Exceptions\NotFoundException;
+use MyProject\Exceptions\UnauthorizedException;
+use MyProject\Exceptions\InvalidArgumentException;
 
 use \Error;
 
@@ -30,7 +32,6 @@ class ArticlesController extends AbstractController
         $article = Article::getById($articleId);
         if ($article === null) {
           throw new NotFoundException();
-          
         }
         $article->setName('Новое название статьи');
         $article->setText('Новый текст');
@@ -39,13 +40,20 @@ class ArticlesController extends AbstractController
 
     public function add(): void
     {
-        $article = new Article();
-        $author = User::getByID(1);
-        $article->setName('Название новой статьи');
-        $article->setText('Текст новой статьи');
-        $article->setAuthor($author);
-        $article->setCreatedAt(date('Y-m-d H:i:s'));
-        $article->save();
+        if ($this->user === null) {
+            throw new UnauthorizedException('Авторизуйтесь чтобы добавить статью');
+        }
+        if (!empty($_POST)) {
+            try {
+                $article = Article::createFromArray($_POST, $this->user);
+            } catch (InvalidArgumentException $e) {
+                $this->view->renderHtml('articles/add.php', ['error'=>$e->getMessage()]);
+                return;
+            }
+            header ('Location: '.$article->getId(), true, 302);
+            exit();
+        }
+        $this->view->renderHtml('articles/add.php');
     }
 
     public function delete(int $id): void

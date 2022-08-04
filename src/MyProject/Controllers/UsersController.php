@@ -79,8 +79,9 @@ class UsersController extends AbstractController
             } catch (InvalidArgumentException $e) {
                 $this->view->renderHtml('users/login.php',['error'=>$e->getMessage()]);
             }
+        } else {
+            $this->view->renderHtml('users/login.php',[]);
         }
-        $this->view->renderHtml('users/login.php');
     }
 
     public function logout():?User
