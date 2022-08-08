@@ -18,5 +18,14 @@ class Comment extends ActiveRecordEntity
         return 'comments';
     }
 
+    public function getText():string
+    {
+        return $this->text;
+    }
+
+    public function getDate():string
+    {
+        return $this->date;
+    }
   
 }

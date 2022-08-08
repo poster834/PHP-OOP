@@ -3,7 +3,8 @@ namespace MyProject\Controllers;
 use MyProject\Services\Db;
 use MyProject\Models\Comments\Comment;
 
-class CommentController 
+
+class CommentController extends AbstractController
 {
     public static function getCommentsByArticleId(int $articleId):array 
     {

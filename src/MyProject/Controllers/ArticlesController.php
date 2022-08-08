@@ -95,5 +95,12 @@ class ArticlesController extends AbstractController
         }
     }
 
+    public function comments(int $articleId):void
+    {
+        $article = Article::getById($articleId);
+        $comments = CommentController::getCommentsByArticleId($articleId);
+        $this->view->renderHtml('articles/view.php',['article'=>$article, 'comments'=>$comments]);
+    }
+
    
 }

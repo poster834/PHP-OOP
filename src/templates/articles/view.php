@@ -24,9 +24,12 @@ use MyProject\Models\Users\UsersAuthService;
 
 <h3>Комментарии</h3>
 <pre>
-<?php var_dump($comments);?>
-<!-- <?php foreach ($comments as $comment):?>
-    <div><?= $comment->getCommentDate();?></div>
-<?php endforeach;?> -->
+<?php foreach($comments as $comment):?>
+    <a href="#comment<?=$comment->getId();?>"></a>
+    <div id="comment<?=$comment->getId();?>">
+        <?=$comment->getText();?>
+        <?=$comment->getDate();?>
+    </div>
+<?php endforeach;?>
 <br>
 <?php include('../src/templates/footer.php');?>
