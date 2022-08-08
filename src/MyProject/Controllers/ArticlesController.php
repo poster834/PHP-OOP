@@ -8,8 +8,8 @@ use MyProject\Exceptions\NotFoundException;
 use MyProject\Exceptions\UnauthorizedException;
 use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Exceptions\ForbiddenException;
-
 use \Error;
+use MyProject\Controllers\CommentController;
 
 class ArticlesController extends AbstractController
 {
@@ -17,14 +17,14 @@ class ArticlesController extends AbstractController
     public function view(int $articleId)
     {
     $article = Article::getById($articleId);
-
+    $comments = CommentController::getCommentsByArticleId($articleId);
 
     if ($article === null) {
         throw new NotFoundException();
     }
 
     $articleAuthor = User::getByID($articleId);
-    $this->view->renderHtml('articles/view.php',['article'=>$article]);
+    $this->view->renderHtml('articles/view.php',['article'=>$article, 'comments'=>$comments]);
     }
 
     public function edit(int $articleId): void
@@ -93,6 +93,7 @@ class ArticlesController extends AbstractController
         } else {
             $this->view->renderHtml('errors/notFound.php',['error'=>new Error()],404); 
         }
-       
     }
+
+   
 }

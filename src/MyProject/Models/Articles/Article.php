@@ -5,6 +5,7 @@ use MyProject\Models\Users\User;
 use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Exceptions\ForbiddenException;
 use MyProject\Models\Users\UsersAuthService;
+use MyProject\Services\Db;
 
 class Article extends ActiveRecordEntity
 {
@@ -98,6 +99,17 @@ class Article extends ActiveRecordEntity
         $this->setText($fields['text']);
         $this->save();
         return $this;
+    }
+
+    public function isEdditable(): bool
+    {
+        $user = UsersAuthService::getUserByToken();
+        $author =  $this->getAuthor();
+
+        if ($user !=null && ($user === $author || $user->isAdmin())) {
+            return true;
+        }
+        return false;
     }
 
 }
