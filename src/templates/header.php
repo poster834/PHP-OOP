@@ -11,7 +11,19 @@
 <body>
 <div id='userLogin'>
 
-<?= !empty($user) ? 'Привет, '.$user->getNickname() .' | <a href="/www/users/logout">Выйти</a>' : '<a href="/www/users/login">Вход</a> | <a href="/www/users/register">Регистрация</a>';  ?>
+<?php
+if(!empty($user)){
+    echo 'Привет, '.$user->getNickname() .' | <a href="/www/users/logout">Выйти</a>';
+    if ($user->isAdmin()) {
+        echo '<br><a href="/www/admin">АдминПанель</a>';
+        echo '<br><a href="/www">Главная страница</a>';
+    }
+} else {
+    echo '<a href="/www/users/login">Вход</a> | <a href="/www/users/register">Регистрация</a>';  
+}   
+
+?>
+
 
 </div>
 

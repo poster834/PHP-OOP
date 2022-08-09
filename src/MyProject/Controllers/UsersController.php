@@ -92,4 +92,23 @@ class UsersController extends AbstractController
         exit();
         return $user;
     }
+
+    public function profile($id):void
+    {
+        $user = UsersAuthService::getUserByToken();
+        if (!empty($_FILES)) {
+            $uploaddir = __DIR__ . str_replace('/','\\','/../../../www/img/');
+            $uploadfile = $uploaddir . basename($_FILES['avatar']['name']);
+            
+            echo '<pre>';
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadfile)) {
+                $user->setAvatar($uploaddir);
+                echo $uploaddir."<br>Файл корректен и был успешно загружен.\n";
+            } else {
+                echo "Возможная атака с помощью файловой загрузки!\n";
+            }
+
+        }
+        $this->view->renderHtml('users/profile.php',[]);
+    }
 }

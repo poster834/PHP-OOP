@@ -26,9 +26,13 @@ class Article extends ActiveRecordEntity
         return $this->name;
     }
 
-    public function getText():string
+    public function getText(int $n=0):string
     {
-        return $this->text;
+        if ($n > 0) {
+           return substr($this->text, 0, $n);
+        } else {
+            return $this->text;
+        }
     }
 
     protected static function getTableName(): string
@@ -85,7 +89,7 @@ class Article extends ActiveRecordEntity
     {
         $user = UsersAuthService::getUserByToken();
 
-        if (!$user->isAdmin()) {
+        if (!$this->isEdditable()) {
             throw new ForbiddenException("Вы не администратор!");            
         }
         if (empty($fields['name'])) {
@@ -106,7 +110,7 @@ class Article extends ActiveRecordEntity
         $user = UsersAuthService::getUserByToken();
         $author =  $this->getAuthor();
 
-        if ($user !=null && ($user === $author || $user->isAdmin())) {
+        if ($user !=null && ($user == $author || $user->isAdmin())) {
             return true;
         }
         return false;

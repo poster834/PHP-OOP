@@ -14,7 +14,7 @@
         <tr>
             <td colspan="2">
                 <h2><a href="articles/<?=$article->getId();?>"><?=$article->getName();?></a></h2>
-                <p><?=$article->getText();?></p>
+                <p><?=$article->getText(300);?></p>
 
             </td>
         </tr>

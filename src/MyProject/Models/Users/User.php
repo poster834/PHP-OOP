@@ -12,6 +12,7 @@ class User extends ActiveRecordEntity
     protected $password_hash;
     protected $auth_token;
     protected $created_at;
+    protected $avatar_url;
 
 
     public function getNickname():string
@@ -117,8 +118,6 @@ class User extends ActiveRecordEntity
         return $this->password_hash;
     }
 
-    
-
     public function getAuthToken():string
     {
         return $this->authToken;
@@ -133,5 +132,12 @@ class User extends ActiveRecordEntity
     public function isAdmin():bool
     {
         return $this->role == 'admin' ? true : false;
+    }
+
+    public function setAvatar(string $filePath):void
+    {
+        $user = UsersAuthService::getUserByToken();
+        $user->avatar_url = $filePath;
+        $user->save();
     }
 }

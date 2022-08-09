@@ -9,7 +9,7 @@ use MyProject\Exceptions\UnauthorizedException;
 use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Exceptions\ForbiddenException;
 use \Error;
-use MyProject\Controllers\CommentController;
+use MyProject\Controllers\CommentsController;
 
 class ArticlesController extends AbstractController
 {
@@ -17,7 +17,7 @@ class ArticlesController extends AbstractController
     public function view(int $articleId)
     {
     $article = Article::getById($articleId);
-    $comments = CommentController::getCommentsByArticleId($articleId);
+    $comments = CommentsController::getCommentsByArticleId($articleId);
 
     if ($article === null) {
         throw new NotFoundException();
@@ -98,7 +98,7 @@ class ArticlesController extends AbstractController
     public function comments(int $articleId):void
     {
         $article = Article::getById($articleId);
-        $comments = CommentController::getCommentsByArticleId($articleId);
+        $comments = CommentsController::getCommentsByArticleId($articleId);
         $this->view->renderHtml('articles/view.php',['article'=>$article, 'comments'=>$comments]);
     }
 

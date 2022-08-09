@@ -125,6 +125,18 @@ abstract class ActiveRecordEntity
         return $result[0];
     }
 
+    public static function findLastAddedByColumn(string $columnName, $value):?self
+    {
+        $sql = 'SELECT * FROM '. static::getTableName() . ' WHERE `'.$columnName.'` = :value ORDER BY id DESC LIMIT 1;';
+        $db = Db::getInstances();
+        $result = $db->query($sql, [':value' => $value], static::class);
+
+        if ($result === []) {
+            return null;
+        }
+        return $result[0];
+    }
+
     abstract protected static function getTableName():string;
 
 

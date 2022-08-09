@@ -42,6 +42,9 @@ try{
 }catch (\MyProject\Exceptions\UnauthorizedException $e) {
     $view = new \MyProject\View\View(__DIR__. str_replace('/','\\','/../src/templates/errors'));
     $view->renderHtml('401.php', ['error'=>$e->getMessage()],401);
+}catch (\MyProject\Exceptions\ForbiddenException $e) {
+    $view = new \MyProject\View\View(__DIR__. str_replace('/','\\','/../src/templates/errors'));
+    $view->renderHtml('notAllow.php', ['error'=>$e->getMessage()],401);
 }
 
 
