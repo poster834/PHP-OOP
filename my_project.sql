@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Авг 09 2022 г., 17:04
+-- Время создания: Авг 11 2022 г., 09:03
 -- Версия сервера: 5.7.38
 -- Версия PHP: 7.1.33
 
@@ -81,14 +81,15 @@ INSERT INTO `comments` (`id`, `author_id`, `article_id`, `text`, `date`) VALUES
 (11, 25, 1, 'fghfghfgh', '2022-08-09 10:18:40'),
 (12, 25, 2, 'Этого комментария быть не должно в первой статье. Это комментарий для статьи - 2', '2022-08-09 10:18:40'),
 (13, 25, 1, 'Вот теперь проверим еще разочек', '2022-08-09 10:19:50'),
-(14, 24, 1, 'Что тут понаписано?', '2022-08-09 15:58:02'),
+(14, 24, 1, 'Что тут понаписано?впарвапвап', '2022-08-11 08:56:40'),
 (15, 24, 1, 'tyutyutyu', '2022-08-09 10:25:22'),
 (16, 25, 22, 'Новый комментарий новой статье\r\nEDIT\r\nEDIT\r\nEDIT\r\nEDIT\r\nEDIT', '2022-08-09 11:31:43'),
 (17, 25, 22, 'Нормальный текст для проверки', '2022-08-09 12:02:25'),
 (18, 25, 22, 'Норм текст', '2022-08-09 12:03:43'),
 (19, 24, 19, '321321321321', '2022-08-09 12:11:57'),
 (20, 24, 17, 'ОГО!', '2022-08-09 12:22:07'),
-(21, 24, 22, 'Комментарий автора статьи. Редактор Admin', '2022-08-09 15:15:53');
+(21, 24, 22, 'Комментарий автора статьи. Редактор Admin', '2022-08-09 15:15:53'),
+(22, 24, 23, 'retsertgerte', '2022-08-11 08:46:51');
 
 -- --------------------------------------------------------
 
@@ -105,19 +106,19 @@ CREATE TABLE `users` (
   `password_hash` varchar(255) NOT NULL,
   `auth_token` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `avatar` varchar(255) DEFAULT NULL
+  `avatar_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `nickname`, `email`, `is_confirmed`, `role`, `password_hash`, `auth_token`, `created_at`, `avatar`) VALUES
+INSERT INTO `users` (`id`, `nickname`, `email`, `is_confirmed`, `role`, `password_hash`, `auth_token`, `created_at`, `avatar_url`) VALUES
 (1, 'admin555', 'poster8@gmail.com', 0, 'user', '$2y$10$wzZ1T9gzkdbq8lNWV/qxcezfqRSj/CkJAUNL.zPzdrRnEkjYtsWsm', 'aff37379f73468bb5ba56c6b5bb96cef2dcd459140af35f541fa9b82e907b630db16e4fce8f50def', '2022-08-03 15:03:59', NULL),
 (2, 'user', 'user@gmail.com', 1, 'user', 'hash2', 'token2', '2022-07-21 08:48:54', NULL),
 (3, 'user1', 'admin1@gmail.com', 0, 'user', '$2y$10$PH.vAJpVmeZNGATmesM3y.Uo9AFtmQAlCOZ33TnZV0/5R1.SzCl1O', 'e1f3fff7a5a0c2b0d4e7baeacb43a232f8596b24b0cee3b576f809391658234f7d92ebc8a6ddc7d1', '2022-07-28 17:05:41', NULL),
-(24, 'rrr', 'poster83@gmail.com', 1, 'user', '$2y$10$SEgjBmCZM/hetf6fBreI1OddjQyRWLMC.OtzE8560NKM3J/u9Sk72', 'f620c8ff21d7eca339a2151a5e51e28ac5b80867a20fd24cf61903d172547371883be7953f40c420', '2022-08-03 17:04:01', NULL),
-(25, 'admin', 'poster834@gmail.com', 1, 'admin', '$2y$10$Okt6sCTVFBPQihRT5cDYPu2XXmW9bduv0RYLYsJ0qGfJ6VBLow8qS', 'efb9667e2135eb754b322ced2057a8d036ae7415614c961aeac47af950ad420547e5f7b37029f29f', '2022-08-04 10:22:45', NULL);
+(24, 'rrr', 'poster83@gmail.com', 1, 'user', '$2y$10$SEgjBmCZM/hetf6fBreI1OddjQyRWLMC.OtzE8560NKM3J/u9Sk72', '116b428dd23677fd9880d919ba66c553dbed4b9f61ff997ebef6503293d8fc15a486629536f8224b', '2022-08-03 17:04:01', 'rrr70 Лет Победы -206.png'),
+(25, 'admin', 'poster834@gmail.com', 1, 'admin', '$2y$10$Okt6sCTVFBPQihRT5cDYPu2XXmW9bduv0RYLYsJ0qGfJ6VBLow8qS', 'b8fa1e6b7ce5c65f859e5494e050b74aea56845b2a32ab63fa113d473c5ed5df0e2a385862da2293', '2022-08-04 10:22:45', 'admingosuslugi-min.png');
 
 -- --------------------------------------------------------
 
@@ -175,7 +176,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
