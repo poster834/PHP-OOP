@@ -11,18 +11,18 @@
 <body>
 <div id='userLogin'>
 
-<?php
-if(!empty($user)){
-    echo 'Привет, '.$user->getNickname() .' | <a href="/www/users/logout">Выйти</a>';
-    if ($user->isAdmin()) {
-        echo '<br><a href="/www/admin">АдминПанель</a>';
-        echo '<br><a href="/www">Главная страница</a>';
-    }
-} else {
-    echo '<a href="/www/users/login">Вход</a> | <a href="/www/users/register">Регистрация</a>';  
-}   
+<?php if(!empty($user)):?>
+    Привет, <?=$user->getNickname()?> |  <a href="/www/users/profile">Профиль</a> | <a href="/www/users/logout">Выйти</a>
 
-?>
+    <?php if ($user->isAdmin()):?>
+        <br><a href="/www/admin">АдминПанель</a>
+        <br><a href="/www">Главная страница</a>
+    <?php endif;?>
+<?php else:?>
+    <a href="/www/users/login">Вход</a> | <a href="/www/users/register">Регистрация</a>
+<?php endif;?>
+
+
 
 
 </div>

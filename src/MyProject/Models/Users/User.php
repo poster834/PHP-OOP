@@ -136,8 +136,15 @@ class User extends ActiveRecordEntity
 
     public function setAvatar(string $filePath):void
     {
-        $user = UsersAuthService::getUserByToken();
-        $user->avatar_url = $filePath;
-        $user->save();
+        $this->avatar_url = $filePath;
+        $this->save();
+    }
+    public function getAvatarUrl():?string
+    {
+        return $this->avatar_url;
+    }
+    public function getAvatar():?string
+    {
+        return $GLOBALS['AVATAR_SRC'].$this->avatar_url;
     }
 }

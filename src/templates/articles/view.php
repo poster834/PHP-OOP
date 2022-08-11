@@ -30,6 +30,7 @@ use MyProject\Models\Users\UsersAuthService;
         <?=$comment->getText();?>
         <?=$comment->getDate();?>
         <?=$comment->getAuthor()->getNickname();?>
+        <img style="max-width:20px;height:auto;" src="<?=$comment->getAuthor()->getAvatar();?>" alt="">
         <?php if ($comment->isEdditable()):?>
             <a href="/www/comments/<?=$comment->getId()?>/edit">Редактировать</a>
         <?php endif;?>

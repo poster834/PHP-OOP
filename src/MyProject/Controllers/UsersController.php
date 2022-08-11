@@ -93,22 +93,52 @@ class UsersController extends AbstractController
         return $user;
     }
 
-    public function profile($id):void
+    public function profile():void
     {
         $user = UsersAuthService::getUserByToken();
-        if (!empty($_FILES)) {
-            $uploaddir = __DIR__ . str_replace('/','\\','/../../../www/img/');
-            $uploadfile = $uploaddir . basename($_FILES['avatar']['name']);
-            
-            echo '<pre>';
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadfile)) {
-                $user->setAvatar($uploaddir);
-                echo $uploaddir."<br>Файл корректен и был успешно загружен.\n";
+       
+            $uploaddir = __DIR__ . str_replace('/','\\',$GLOBALS['AVATAR_SRC']);
+            $uploadfile = $uploaddir . $user->getNickname().basename($_FILES['avatar']['name']);
+
+            if (isset($_FILES['avatar']['size']) && $_FILES['avatar']['size'] > 0) {
+                $extension = explode('/', $_FILES['avatar']['type']);
+                try{
+                    if ($extension[0] != 'image') {
+                        throw new InvalidArgumentException('Выберете файл-картинку для Аватара');
+                    } else {
+                        move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadfile);
+                        $user->setAvatar($user->getNickname().$_FILES['avatar']['name']);
+                        $this->view->renderHtml('users/profile.php',['avatar_url'=>$user->getAvatarUrl()]);
+                    }
+                }
+                catch(InvalidArgumentException $e){
+                    $this->view->renderHtml('users/profile.php',['avatar_url'=>$user->getAvatarUrl(),'error'=>$e->getMessage()]);
+                }
+            } elseif($user->getAvatarUrl() == null || $user->getAvatarUrl() == '' ) {
+                try {
+                        if (isset($_POST['submit'])) {
+                            throw new \Exception('Выберете файл-картинку для Аватара');
+                        }
+                        else {
+                            $this->view->renderHtml('users/profile.php',['avatar_url'=>$user->getAvatarUrl()]);    
+                        }
+                } catch(\Exception $e){
+                    $this->view->renderHtml('users/profile.php',['avatar_url'=>$user->getAvatarUrl(),'error'=>$e->getMessage()]);
+                }
+               
+                
+            } elseif($_FILES['avatar']['size'] = 0){
+                $this->view->renderHtml('users/profile.php',['avatar_url'=>$user->getAvatarUrl(),'error'=>$e->getMessage()]);
+            } elseif(isset($_POST['deleteAvatar'])){
+                
+                $uploadfile = $uploaddir ."\\" . $user->getAvatarUrl();
+                unlink($uploadfile);
+                $user->setAvatar('');
+
+                $this->view->renderHtml('users/profile.php',['avatar_url'=>$user->getAvatarUrl()]);
             } else {
-                echo "Возможная атака с помощью файловой загрузки!\n";
+                $this->view->renderHtml('users/profile.php',['avatar_url'=>$user->getAvatarUrl()]);
             }
 
-        }
-        $this->view->renderHtml('users/profile.php',[]);
     }
 }

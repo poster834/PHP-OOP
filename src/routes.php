@@ -17,6 +17,6 @@ return [
     '~^admin$~' => [\MyProject\Controllers\AdminController::class, 'adminBlog'],
     '~^admin/adminArticles$~' => [\MyProject\Controllers\AdminController::class, 'adminArticles'],
     '~^admin/adminComments$~' => [\MyProject\Controllers\AdminController::class, 'adminComments'],
-    '~^users/(\d+)/profile$~' => [\MyProject\Controllers\UsersController::class, 'profile'],
+    '~^users/profile$~' => [\MyProject\Controllers\UsersController::class, 'profile'],
 
 ];
