@@ -22,9 +22,4 @@
     <a href="/www/users/login">Вход</a> | <a href="/www/users/register">Регистрация</a>
 <?php endif;?>
 
-
-
-
 </div>
-
-
